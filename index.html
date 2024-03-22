@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Выпадающий список</title>
+        <style>
+            .catalog {
+                list-style: none;
+                padding: 0;
+                width: 200px;
+            }
+            .catalog li {
+                padding: 10px;
+                cursor: pointer;
+            }
+            .catalog .subcatalog {
+                display: none;
+                padding-left: 15px;
+            }
+            .catalog .subcatalog .subcatalog {
+                padding-left: 35px;
+            }
+        </style>
+    </head>
+    <body>
+        <ul class="catalog">
+            <li>Каталог товаров
+                <ul class="subcatalog">
+                    <li>Книги
+                        <ul class="subcatalog">
+                            <li>Отечественные</li>
+                            <li>Зарубежные
+                                <ul class="subcatalog">
+                                    <li>Детективы</li>
+                                    <li>Научная фантастика</li>
+                                    <li>Исторические</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>DVD
+                        <ul class="subcatalog">
+                            <li>Отечественные
+                                <ul class="subcatalog">
+                                    <li>Детективы</li>
+                                    <li>Научная фантастика</li>
+                                    <li>Исторические</li>
+                                </ul>
+                            </li>
+                            <li>Зарубежные
+                                <ul class="subcatalog"></ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <script>
+            const catalogItems = document.querySelectorAll('.catalog li');
+            catalogItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const subcatalog = item.querySelector('.subcatalog');
+                    if (subcatalog) {
+                        subcatalog.style.display = subcatalog.style.display === 'block' ? 'none' : 'block';
+                    } 
+                    else 
+                    {
+                        const itemLink = item.querySelector('a');
+                        if (itemLink && itemLink.href) {
+                            window.location.href = itemLink.href;
+                        }
+                    }
+                });
+            });
+            document.addEventListener('click', (e) => {
+                catalogItems.forEach(item => {
+                    const subcatalog = item.querySelector('.subcatalog');
+                    if (subcatalog && subcatalog.style.display === 'block' && !item.contains(e.target)) 
+                    {
+                        subcatalog.style.display = 'none';
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
